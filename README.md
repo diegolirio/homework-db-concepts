@@ -1,4 +1,17 @@
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "primaryColor":        "#4A90D9",
+    "primaryTextColor":    "#ffffff",
+    "primaryBorderColor":  "#2c6fad",
+    "lineColor":           "#5a6474",
+    "secondaryColor":      "#F4A261",
+    "tertiaryColor":       "#2EC4B6",
+    "edgeLabelBackground": "#f0f4f8",
+    "fontFamily":          "monospace"
+  }
+}}%%
 erDiagram
     cliente {
         int         id_cliente   PK
