@@ -1,0 +1,38 @@
+services:
+  cassandra:
+    image: cassandra:latest
+    container_name: MyCassandra
+    hostname: cassandra
+    ports:
+      - "9042:9042"   # CQL native transport
+      - "7000:7000"   # Inter-node cluster communication
+      - "7001:7001"   # Inter-node SSL
+      - "7199:7199"   # JMX
+      - "9160:9160"   # Thrift client API
+    environment:
+      - CASSANDRA_CLUSTER_NAME=DTSCluster
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_RACK=rack1
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_NUM_TOKENS=128
+      - HEAP_NEWSIZE=128M
+      - MAX_HEAP_SIZE=512M
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD-SHELL", "nodetool status | grep -E '^UN'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - cassandra-net
+
+volumes:
+  cassandra_data:
+    driver: local
+
+networks:
+  cassandra-net:
+    driver: bridge
